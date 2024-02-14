@@ -127,5 +127,19 @@ namespace WebApplication1.Controllers
                 return $"Put status [=> {status}";
             }
         }
+        [HttpPatch]
+        public string PatchADO(int id, string name)
+        {
+            using(NpgsqlConnection connection = new NpgsqlConnection(CONNECTIONSTRING))
+            {
+                string query = $"update products set name = @name where id = @id";
+                connection.Open();
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.AddWithValue("name", name);
+                command.Parameters.AddWithValue("id", id);
+                int status = command.ExecuteNonQuery();
+                return $"Patch status [=> {status}";
+            }
+        }
     }
 }
