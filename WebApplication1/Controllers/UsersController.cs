@@ -141,5 +141,18 @@ namespace WebApplication1.Controllers
                 return $"Patch status [=> {status}";
             }
         }
+        [HttpDelete]
+        public string DeleteADO(int id)
+        {
+            using(NpgsqlConnection connection = new NpgsqlConnection(CONNECTIONSTRING))
+            {
+                string query = $"delete from products where id = @id";
+                connection.Open();
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                command.Parameters.AddWithValue("id", id);
+                int status = command.ExecuteNonQuery ();
+                return $"Delete status [=> {status}";
+            }
+        }
     }
 }
